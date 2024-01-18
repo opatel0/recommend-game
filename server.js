@@ -6,6 +6,7 @@ const methodOverride = require('method-override')
 const app = express()
 const usersCtrl = require('./controllers/users')
 const recommendationsCtrl = require('./controllers/recommendations')
+const db = require('./models')
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -19,7 +20,18 @@ app.get('/', (req, res) => {
 })
 app.use('/user', usersCtrl)
 app.use('/recommendations', recommendationsCtrl)
-app.get('/seed', (req, res) => res.send(('seed')))
+app.get('/seed', (req, res) => {
+    db.User.deleteMany({})
+        .then(deletedData => {
+            console.log(`Removed ${deletedData.deletedCount} users`)
+            db.User.insertMany(db.seedData)
+                .then(createdData => {
+                    console.log(createdData)
+                    console.log(`Added ${createdData.length} users`)
+                    res.send((`Seed data: ${createdData}`))
+                })
+        })
+})
 app.get('/*', (req, res) => res.send('404'))
 
 app.listen(process.env.PORT, () => {
