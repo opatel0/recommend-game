@@ -28,7 +28,7 @@ app.get('/seed', (req, res) => {
                 .then(createdData => {
                     console.log(createdData)
                     console.log(`Added ${createdData.length} users`)
-                    res.send((`Seed data: ${createdData}`))
+                    res.json((createdData))
                 })
         })
 })
