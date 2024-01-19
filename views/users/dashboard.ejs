@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
 <%- include('../partials/header') %>
+</head>
 <body>
     <%- include('../partials/meta') %>
-    <h2>User Dashboard</h2>
+    <h2><%- user[0].username %> User Dashboard</h2>
+    <a href="/users/<%- user[0].username %>/edit"><button>Edit User Account</button></a>
     <% Object.keys(recs) %>
     <% for (key of Object.keys(recs)) { %>
         <h3>Recommendation</h3>

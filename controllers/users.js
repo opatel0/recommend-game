@@ -21,29 +21,33 @@ router.get('/:id', async (req, res) => {
     await db.User.find({'username': req.params.id})
         .then(async user => {
             recs = {}
+            // known bug: if username not found, server crashes since user[0].recommendations won't be defined
             for (rec of user[0].recommendations) {
                 await db.Recs.find({_id: rec})
                     .then(doc => {
                         recs[rec] = doc
                     })
             }
-            res.render('users/dashboard', {recs: recs})
+            res.render('users/dashboard', {recs: recs, user: user})
         })
 })
 
 // delete
 router.delete('/:id', (req, res) => {
     db.User.deleteOne({'username': req.params.id})
-        .then(user => res.json(user))
+        .then(() => res.redirect('/'))
 })
 
 // edit
-router.get('/:id/edit', (req, res) => res.send('Show edit form for user ' + req.params.id))
+router.get('/:id/edit', (req, res) => {
+    db.User.find({username: req.params.id})
+        .then(user => res.render('users/edit-user', {user: user}))
+})
 router.put('/:id/edit', (req, res) => {
     db.User.updateOne(
         {'username': req.params.id},
         req.body
-    ).then(user => res.json(user))
+    ).then(() => res.redirect('/users/'+req.body.username))
 })
 
 module.exports = router
