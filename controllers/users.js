@@ -9,16 +9,26 @@ router.get('/', (req,res) => {
 })
 
 // create
-router.get('/new', (req, res) => res.send('Create new user form'))
+router.get('/new', (req, res) => res.render('users/new-user'))
 router.post('/new', (req, res) => {
+    // STRETCH: add logic to prevent repeat usernames
     db.User.create(req.body)
         .then(user => res.json(user))
 })
 
 // show
-router.get('/:id', (req, res) => {
-    db.User.find({'username': req.params.id})
-        .then(user => res.json(user))
+router.get('/:id', async (req, res) => {
+    await db.User.find({'username': req.params.id})
+        .then(async user => {
+            recs = {}
+            for (rec of user[0].recommendations) {
+                await db.Recs.find({_id: rec})
+                    .then(doc => {
+                        recs[rec] = doc
+                    })
+            }
+            res.render('users/dashboard', {recs: recs})
+        })
 })
 
 // delete

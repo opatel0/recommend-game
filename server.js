@@ -15,45 +15,48 @@ app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
 
+if (process.env.ON_HEROKU === 'false') {
+    app.get('/seed', async (req, res) => {
+        await db.User.deleteMany({})
+            .then(async deletedData => {
+                console.log(`Removed ${deletedData.deletedCount} users`)
+                await db.Recs.deleteMany({})
+                    .then(async deletedData => {
+                        console.log(`Removed ${deletedData.deletedCount} recommendations`)
+                        await db.User.insertMany(db.seedData.users)
+                        .then(async createdData => {
+                            console.log(`Added ${createdData.length} users`)
+                            await db.Recs.insertMany(db.seedData.recommendations)
+                                .then(async createdData => {
+                                    console.log(`Added ${createdData.length} recommendations`)
+                                    for (let i=0; i<createdData.length; i++) {
+                                        await db.User.find({})
+                                            .then(async users => {
+                                                db.User.updateOne(
+                                                    {username: users[i].username},
+                                                    { $push: {recommendations: createdData[i]._id}}
+                                                ).then(user => console.log(user))
+                                            })
+                                    }
+                                    await db.User.find({})
+                                        .then(users => res.json(users))
+                                })
+                        })
+                    })
+            })
+    })
+}
+
 // home page to show request form and lure user into inputting search
 app.get('/', (req, res) => {
-    res.send('Hello World')
+    res.render('home')
 })
 app.get('/about', (req, res) => {
-    res.send('About Page')
-})
-app.get('/seed', async (req, res) => {
-    await db.User.deleteMany({})
-        .then(async deletedData => {
-            console.log(`Removed ${deletedData.deletedCount} users`)
-            await db.Recs.deleteMany({})
-                .then(async deletedData => {
-                    console.log(`Removed ${deletedData.deletedCount} recommendations`)
-                    await db.User.insertMany(db.seedData.users)
-                    .then(async createdData => {
-                        console.log(`Added ${createdData.length} users`)
-                        await db.Recs.insertMany(db.seedData.recommendations)
-                            .then(async createdData => {
-                                console.log(`Added ${createdData.length} recommendations`)
-                                for (let i=0; i<createdData.length; i++) {
-                                    await db.User.find({})
-                                        .then(async users => {
-                                            db.User.updateOne(
-                                                {username: users[i].username},
-                                                { $push: {recommendations: createdData[i]._id}}
-                                            ).then(user => console.log(user))
-                                        })
-                                }
-                                await db.User.find({})
-                                    .then(users => res.json(users))
-                            })
-                    })
-                })
-        })
+    res.render('about')
 })
 app.use('/users', usersCtrl)
 app.use('/recommendations', recommendationsCtrl)
-app.get('/*', (req, res) => res.send('404'))
+app.get('/*', (req, res) => res.render('404'))
 
 app.listen(process.env.PORT, () => {
     console.log('Express is listening to port ', process.env.PORT)

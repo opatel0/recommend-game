@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/header') %>
+<body>
+    <%- include('../partials/meta') %>
+    <h2>User Dashboard</h2>
+    <% for (key of Object.keys(recs)) { %>
+        <% for (doc of recs[key]) { %>
+            <% console.log(Object.entries(doc._doc)) %>
+            <h3>Recommendation</h3>
+        <% } %>
+    <% } %>
+</body>
+</html>
