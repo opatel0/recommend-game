@@ -19,8 +19,6 @@ router.post('/new', (req, res) => {
 
 // show
 router.get('/:id', (req, res) => {
-    // iterates through all users to find matching id
-    // TO DO: recommendation id should be an input (req.query maybe?)
     // STRETCH: user can create new recommendation with form filled out with all existing recommendation search criteria, as a way to make "edits" and keeping the old one (which can be deleted)
     db.Recs.find({_id: req.params.id})
         .then(rec => res.json(rec))
