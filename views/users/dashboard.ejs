@@ -4,11 +4,27 @@
 <body>
     <%- include('../partials/meta') %>
     <h2>User Dashboard</h2>
+    <% Object.keys(recs) %>
     <% for (key of Object.keys(recs)) { %>
-        <% for (doc of recs[key]) { %>
-            <% console.log(Object.entries(doc._doc)) %>
-            <h3>Recommendation</h3>
-        <% } %>
+        <h3>Recommendation</h3>
+        <h4>Search Criteria</h4>
+        <table>
+            <tr>
+              <th>Category</th>
+              <th>Value</th>
+            </tr>
+            <% for (searchKey of Object.keys(recs[key][0].searchCriteria)) { %>
+            <tr>
+              <td><%- searchKey %></td>
+              <td><%- recs[key][0].searchCriteria[searchKey] %></td>
+            </tr>
+            <% } %>
+        </table>
+        <h4>Games</h4>
+            <% for (searchKey of Object.keys(recs[key][0].games)) {  %>
+                <h5><%- recs[key][0].games[searchKey].game %></h5>
+                <div>Price: <%- recs[key][0].games[searchKey].price %></div>
+            <% } %>
     <% } %>
 </body>
 </html>

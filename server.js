@@ -16,6 +16,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
 
 if (process.env.ON_HEROKU === 'false') {
+    // seed route
     app.get('/seed', async (req, res) => {
         await db.User.deleteMany({})
             .then(async deletedData => {

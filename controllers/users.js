@@ -13,7 +13,7 @@ router.get('/new', (req, res) => res.render('users/new-user'))
 router.post('/new', (req, res) => {
     // STRETCH: add logic to prevent repeat usernames
     db.User.create(req.body)
-        .then(user => res.json(user))
+        .then(user => res.redirect(req.body.username))
 })
 
 // show
