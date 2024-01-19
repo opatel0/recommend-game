@@ -21,7 +21,7 @@ router.post('/new', (req, res) => {
 router.get('/:id', (req, res) => {
     // STRETCH: user can create new recommendation with form filled out with all existing recommendation search criteria, as a way to make "edits" and keeping the old one (which can be deleted)
     db.Recs.find({_id: req.params.id})
-        .then(rec => res.json(rec))
+        .then(rec => res.render('recommendations/rec-details', {rec: rec}))
 })
 
 // delete

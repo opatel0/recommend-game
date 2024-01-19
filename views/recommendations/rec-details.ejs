@@ -1,0 +1,18 @@
+<%- include('../partials/meta') %>
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <% for (doc of rec) { %>
+        <h2>Recommendation</h2>
+        <h3>Search Criteria</h3>
+        <% for (searchKey of Object.keys(doc._doc.searchCriteria)) { %>
+            <div><%- `${searchKey}: ${doc.searchCriteria[searchKey]}` %></div>
+        <% } %>
+        <h3>Games</h3>
+        <% for (searchKey of Object.keys(doc._doc.games)) { %>
+            <h4><%- doc.games[searchKey].game %></h4>
+            <div>Price: $<%- doc.games[searchKey].price %></div>
+        <% } %>
+    <% } %>
+</body>
+</html>
