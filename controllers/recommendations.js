@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
 // delete
 router.delete('/:id', (req, res) => {
     db.Recs.deleteOne({_id: req.params.id})
-        .then(rec => res.json(rec))
+        .then(rec => res.redirect('/recommendations'))
 })
 
 module.exports = router
