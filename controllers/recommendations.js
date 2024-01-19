@@ -6,7 +6,7 @@ const db = require('../models')
 // STRETCH: give users option to make recommendations hidden from index page
 router.get('/', (req, res) => {
     db.Recs.find({})
-        .then(recs => res.json(recs))
+        .then(recs => res.render('recommendations/feed', {recs: recs}))
 })
 
 // new

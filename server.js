@@ -36,7 +36,7 @@ if (process.env.ON_HEROKU === 'false') {
                                                 db.User.updateOne(
                                                     {username: users[i].username},
                                                     { $push: {recommendations: createdData[i]._id}}
-                                                ).then(user => console.log(user))
+                                                )
                                             })
                                     }
                                     await db.User.find({})
