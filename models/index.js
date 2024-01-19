@@ -8,5 +8,6 @@ db.on('connected', () => console.log(`Connected to MongoDB ${db.name} at ${db.ho
 
 module.exports = {
     User: require('./user'),
+    Recs: mongoose.model('recommendation', require('./recommendation')),
     seedData: require('./seed')
 }
