@@ -1,0 +1,14 @@
+<%- include('../partials/meta') %>
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <h2>Recommendation Request Form</h2>
+    <form method="POST" action="/recommendations/new">
+        <label for="genre">Genre: </label>
+        <input type="text" id="genre" name="genre" required>
+        <br>
+
+        <input type="submit" value="Create Recommendation">
+    </form>
+</body>
+</html>

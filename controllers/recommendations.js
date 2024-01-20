@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 })
 
 // new
-router.get('/new', (req, res) => res.send('New recommendation form'))
+router.get('/new', (req, res) => res.render('recommendations/request-form'))
 // STRETCH: new recommendations unassociated with user accounts somehow persist between sessions in a user's browser, with an option to clear them out
 router.post('/new', (req, res) => {
     db.Recs.create(req.body)
