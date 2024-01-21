@@ -7,6 +7,7 @@ const app = express()
 const usersCtrl = require('./controllers/users')
 const recommendationsCtrl = require('./controllers/recommendations')
 const db = require('./models')
+const game = require('./models/game')
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
@@ -39,6 +40,28 @@ if (process.env.ON_HEROKU === 'false') {
                                                 )
                                             })
                                     }
+                                    db.Games.model.deleteMany({})
+                                        .then(async () => {
+                                            console.log('Removed all contents of games collection')
+                                            db.Games.model.create({})
+                                            .then(doc => {
+                                                console.log('Added container for game IDs')
+                                                db.Games.getData('', 0)
+                                                    .then(gameData => {
+                                                        for (let game of gameData.data.games) {
+                                                            db.Games.model.updateOne(
+                                                                {_id: doc._id},
+                                                                { $push: {gameIds: game.game_id}}
+                                                            ).then(confirmation => {
+                                                                if (confirmation.adknowledged === false) {
+                                                                    console.log(`Issue pushing game_id ${game.game_id}`)
+                                                                }
+                                                            })
+                                                        }
+                                                        console.log('Added 100 game IDs')
+                                                    })
+                                            })
+                                        })
                                     await db.User.find({})
                                         .then(users => res.json(users))
                                 })
