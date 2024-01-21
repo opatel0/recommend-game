@@ -3,11 +3,8 @@
 <body>
     <%- include('../partials/header') %>
     <% for (rec of recs) { %>
+        <% console.log(rec) %>
         <h2><a href="/recommendations/<%- rec._doc._id %>">Recommendation</a></h2>
-        <h3>Search Criteria</h3>
-        <% for (searchKey of Object.keys(rec._doc.searchCriteria)) { %>
-            <div><%- `${searchKey}: ${rec.searchCriteria[searchKey]}` %></div>
-        <% } %>
         <h3>Games</h3>
         <% for (searchKey of Object.keys(rec._doc.games)) { %>
             <div><%- rec.games[searchKey].game %></div>

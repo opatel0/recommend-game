@@ -6,8 +6,12 @@ const game = mongoose.Schema({gameIds: [Number]})
 
 module.exports = {
     model: mongoose.model('Game', game),
-    getData: async (game_id, offset) => {
-        let link = await axios.get(`https://api.mobygames.com/v1/games/${game_id}?api_key=moby_SQtHjLv5py9hoPeySHi3kpZSa0Y&offset=${offset}`)
+    getData: async (game_id) => {
+        let link = await axios.get(`https://api.mobygames.com/v1/games/${game_id}?api_key=${process.env.MOBYGAMES_APIKEY}`)
+        return link
+    },
+    seedData: async () => {
+        let link = await axios.get(`https://api.mobygames.com/v1/games?api_key=${process.env.MOBYGAMES_APIKEY}`)
         return link
     }
 }

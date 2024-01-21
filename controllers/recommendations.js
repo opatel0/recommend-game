@@ -17,7 +17,7 @@ router.post('/new', (req, res) => {
     gameId['randomId'] = Math.floor(Math.random() * 100)
     db.Games.model.find({})
         .then(doc => {
-            db.Games.getData(doc[0].gameIds[gameId.randomId], 0)
+            db.Games.getData(doc[0].gameIds[gameId.randomId])
                 .then(gameData => {
                     db.Recs.create({searchCriteria: gameId, games: gameData.data})
                         .then(rec => res.render('recommendations/rec-details', {rec: rec}))
@@ -28,7 +28,7 @@ router.post('/new', (req, res) => {
 // show
 router.get('/:id', (req, res) => {
     // STRETCH: user can create new recommendation with form filled out with all existing recommendation search criteria, as a way to make "edits" and keeping the old one (which can be deleted)
-    db.Recs.find({_id: req.params.id})
+    db.Recs.findById({_id: req.params.id})
         .then(rec => res.render('recommendations/rec-details', {rec: rec}))
 })
 
