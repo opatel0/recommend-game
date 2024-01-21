@@ -13,7 +13,11 @@ router.get('/', (req, res) => {
 router.get('/new', (req, res) => res.render('recommendations/request-form'))
 // STRETCH: new recommendations unassociated with user accounts somehow persist between sessions in a user's browser, with an option to clear them out
 router.post('/new', (req, res) => {
-    db.Recs.create(req.body)
+    let gameIds = {};
+    for (let i=0; i<5; i++) {
+        gameIds[i] = Math.floor(Math.random() * 80261)
+    }
+    db.Recs.create({searchCriteria: gameIds, games: []})
         .then(rec => res.json(rec))
 })
 
