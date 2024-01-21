@@ -6,6 +6,24 @@
         <h2>Recommendation</h2>
         <h3>Games</h3>
         <h4><%- doc.title %></h4>
+        <img src="<%- doc.sample_cover.image %>"><br>
+        <%- doc.description %>
+        <h5>Genres</h5>
+        <ul>
+            <% for (genre of doc.genres) { %>
+                <li><%- genre.genre_name %></li>
+            <% } %>
+        </ul>
+        <h5>Platforms</h5>
+            <% for (platform of doc.platforms) { %>
+            <ul>
+                <li><%- `${platform.platform_name}: released in ${platform.first_release_date}` %></li>
+            </ul>
+            <% } %>
+        <h5>Gameplay Screenshots</h5>
+            <% for (screenshot of doc.sample_screenshots) { %>
+            <img src="<%- screenshot.image %>"><br>
+            <% } %>
     <% } %>
     <form method="POST" action ="/recommendations/<%- rec._id %>?_method=DELETE">
         <input type="submit" value="Delete Recommendation">
