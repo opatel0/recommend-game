@@ -1,7 +1,7 @@
-<%- include('../partials/header') %>
+<%- include('../partials/meta') %>
 </head>
 <body>
-    <%- include('../partials/meta') %>
+    <%- include('../partials/header') %>
     <h2><%- user[0].username %> User Dashboard</h2>
     <a href="/users/<%- user[0].username %>/edit"><button>Edit User Account</button></a>
     <% Object.keys(recs) %>

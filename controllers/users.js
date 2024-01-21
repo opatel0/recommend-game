@@ -5,7 +5,26 @@ const db = require('../models')
 // index
 // TO DO: redirect to user dashboard if logged in
 router.get('/', (req,res) => {
-    res.redirect('/users/new')
+    res.render('users/login')
+})
+router.post('/login', (req, res) => {
+    db.User.find({username: req.body.username})
+        .then(account => {
+            if (account.length <1) {
+                console.log('Account not found')
+                res.redirect('/users')
+                console.log('password: ' + req.body.password)
+                console.log(account)
+            } else if (req.body.password !== account[0].password) {
+                console.log('Authentication failed')
+                res.redirect('/users')
+            } else {
+                db.User.find({})
+                    .then(users => {
+                        res.render('users/social', {info: account, users: users})
+                    })
+            }
+        })
 })
 
 // create
@@ -13,10 +32,15 @@ router.get('/new', (req, res) => res.render('users/new-user'))
 router.post('/new', (req, res) => {
     // STRETCH: add logic to prevent repeat usernames
     db.User.create(req.body)
-        .then(user => res.redirect(req.body.username))
+        .then(user => {
+            db.User.find({})
+                .then(users => {
+                    res.render('users/social', {info: user, users: users})
+                })
+    })
 })
 
-// show
+// show dashboard
 router.get('/:id', async (req, res) => {
     await db.User.find({'username': req.params.id})
         .then(async user => {
@@ -36,6 +60,12 @@ router.get('/:id', async (req, res) => {
 router.delete('/:id', (req, res) => {
     db.User.deleteOne({'username': req.params.id})
         .then(() => res.redirect('/'))
+})
+
+// show user profile
+router.get('/:id/profile', (req, res) => {
+    db.User.find({username: req.params.id})
+        .then(profile => res.render(`users/user-profile`, {profile: profile}))
 })
 
 // edit
