@@ -2,12 +2,13 @@
 </head>
 <body>
     <%- include('../partials/header') %>
-    <% for (rec of recs) { %>
+    <% for (rec of recs.reverse()) { %>
         <% console.log(rec) %>
-        <h2><a href="/recommendations/<%- rec._doc._id %>">Recommendation</a></h2>
-        <h3>Games</h3>
         <% for (searchKey of Object.keys(rec._doc.games)) { %>
-            <div><%- rec.games[searchKey].game %></div>
+            <a href="/recommendations/<%- rec._doc._id %>">
+                <h2><%- rec.games[searchKey].title %></h2>
+                <img src=<%- rec.games[searchKey].sample_cover.image %>>
+            </a>
         <% } %>
     <% } %>
 </body>
