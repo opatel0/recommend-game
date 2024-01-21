@@ -20,7 +20,7 @@ router.post('/new', (req, res) => {
             db.Games.getData(doc[0].gameIds[gameId.randomId], 0)
                 .then(gameData => {
                     db.Recs.create({searchCriteria: gameId, games: gameData.data})
-                        .then(rec => res.json(rec))
+                        .then(rec => res.render('recommendations/rec-details', {rec: rec}))
                 })
         })
 })
