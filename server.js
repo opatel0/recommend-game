@@ -70,7 +70,7 @@ app.get('/about', (req, res) => {
 })
 app.use('/users', usersCtrl)
 app.use('/recommendations', recommendationsCtrl)
-app.get('/*', (req, res) => res.render('404'))
+app.get('*', (req, res) => res.render('404'))
 
 app.listen(process.env.PORT, () => {
     console.log('Express is listening to port ', process.env.PORT)
