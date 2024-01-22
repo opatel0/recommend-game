@@ -1,9 +1,17 @@
 <%- include('./partials/meta') %>
+<link rel="stylesheet" href="/home.css">
 </head>
 <body>
     <%- include('./partials/header') %>
-    <form method="POST" action="/recommendations/new">
-        <input type="submit" value="Get a rec!">
+    <main>
+    <form method="POST" action="/recommendations/new" class="heroContainer">
+        <input type="submit" value="GET&#10;/rec'd" class="hero">
     </form>
+    <div class="pcHero">
+        <h2>Featured Rec</h2>
+        <h3><%- rec.reverse()[0].games[0].title %></h3>
+        <img src=<%- rec[0].games[0].sample_cover.image %> width="300">
+    </div>
+    </main>
 </body>
 </html>

@@ -1,0 +1,58 @@
+header {
+    display: none;
+}
+nav ul {
+    display: flex;
+    align-items: space-between;
+}
+main {
+    height: 100%;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.heroContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+    width: 90%;
+}
+.pcHero {
+    display: none;
+}
+.hero {
+    background-color: brown;
+    font-size: calc(3rem + 4vw);
+    height: 90%;
+    width: 90%;
+}
+
+@media (min-width: 768px) {
+    header {
+        display: flex;
+        flex-direction: column;
+        height: 15%;
+    }
+    main {
+        height: 85%;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+    .heroContainer {
+        width: 45%;
+    }
+    .hero {
+        width: 100%;
+        font-size: calc(2rem + 4vw);
+    }
+    .pcHero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 45%;
+    }
+}

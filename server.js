@@ -64,7 +64,11 @@ if (process.env.ON_HEROKU === 'false') {
 
 // home page to show request form and lure user into inputting search
 app.get('/', (req, res) => {
-    res.render('home')
+    db.Recs.find({})
+        .then(rec => {
+            console.log(rec)
+            res.render('home', {rec: rec})
+    })
 })
 app.get('/about', (req, res) => {
     res.render('about')
