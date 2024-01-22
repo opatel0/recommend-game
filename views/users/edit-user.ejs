@@ -3,7 +3,6 @@
 <body>
     <%- include('../partials/header') %>
     <h2>Edit User</h2>
-    <% console.log(user) %>
     <form method="POST" action=<%- `/users/${user[0].username}/edit?_method=PUT` %>>
         <label for="username">Username: </label>
         <input type="text" id="username" name="username" value="<%- user[0].username %>" required>

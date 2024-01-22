@@ -2,6 +2,8 @@
 </head>
 <body>
     <%- include('./partials/header') %>
-    <p>Welcome. You've reached the game recommendation engine. Visit soon for some fun new tools for exploring the vast world of videogames.</p>
+    <form method="POST" action="/recommendations/new">
+        <input type="submit" value="Get a rec!">
+    </form>
 </body>
 </html>

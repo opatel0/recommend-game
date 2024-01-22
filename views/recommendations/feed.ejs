@@ -3,7 +3,6 @@
 <body>
     <%- include('../partials/header') %>
     <% for (rec of recs.reverse()) { %>
-        <% console.log(rec) %>
         <% for (searchKey of Object.keys(rec._doc.games)) { %>
             <a href="/recommendations/<%- rec._doc._id %>">
                 <h2><%- rec.games[searchKey].title %></h2>

@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+:root {
+    --light-yellow: rgba(253,237,174,1);
+    --yellow: #fbd009;
+    --blue: #199bd6;
+    --red: #e62525;
+    --green: #42af47;
+    --brown: #dbaa65;
+}
+
+body {
+    background-color: var(--light-yellow)
+}
+
+@media (min-width: 768px) {
+    
+}
