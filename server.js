@@ -33,21 +33,25 @@ if (process.env.ON_HEROKU === 'false') {
                                     console.log('Removed all contents of games collection')
                                     db.Games.model.create({})
                                     .then(doc => {
-                                        console.log('Added container for game IDs')
-                                        db.Games.seedData()
-                                            .then(gameData => {
-                                                for (let game of gameData.data.games) {
-                                                    db.Games.model.updateOne(
-                                                        {_id: doc._id},
-                                                        { $push: {gameIds: game.game_id}}
-                                                    ).then(confirmation => {
-                                                        if (confirmation.adknowledged === false) {
-                                                            console.log(`Issue pushing game_id ${game.game_id}`)
+                                        for (let i=0; i<1679; i+=1) {
+                                            setTimeout(() => {
+                                                console.log("Progress: "+i*100+"/167876")
+                                                db.Games.seedData(i*100)
+                                                    .then(gameData => {
+                                                        for (let game of gameData.data.games) {
+                                                            db.Games.model.updateOne(
+                                                                {_id: doc._id},
+                                                                { $push: {gameIds: game.game_id}}
+                                                            ).then(confirmation => {
+                                                                if (confirmation.adknowledged === false) {
+                                                                    console.log(`Issue pushing game_id ${game.game_id}`)
+                                                                }
+                                                            })
                                                         }
+                                                        console.log('Added 100 game IDs')
                                                     })
-                                                }
-                                                console.log('Added 100 game IDs')
-                                            })
+                                            }, i*10000)
+                                        }
                                     })
                                 })
                             await db.User.find({})

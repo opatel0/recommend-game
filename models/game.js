@@ -10,8 +10,8 @@ module.exports = {
         let link = await axios.get(`https://api.mobygames.com/v1/games/${game_id}?api_key=${process.env.MOBYGAMES_APIKEY}`)
         return link
     },
-    seedData: async () => {
-        let link = await axios.get(`https://api.mobygames.com/v1/games?api_key=${process.env.MOBYGAMES_APIKEY}`)
+    seedData: async (offset) => {
+        let link = await axios.get(`https://api.mobygames.com/v1/games?api_key=${process.env.MOBYGAMES_APIKEY}&offset=${offset}`)
         return link
     }
 }
