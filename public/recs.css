@@ -1,0 +1,43 @@
+a {
+    text-decoration: none;
+    width: 90%;
+    text-align: center;
+}
+header {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+nav {
+    text-align: center;
+}
+h2 {
+    color: var(--blue);
+}
+h2:hover {
+    color: var(--green)
+}
+img {
+    width: 100%;
+}
+.details {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    a {
+        width: 40%;
+    }
+    img {
+        width: 100%;
+    }
+    .details {
+        display: list-item;
+    }
+}

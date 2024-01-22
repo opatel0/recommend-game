@@ -66,7 +66,6 @@ if (process.env.ON_HEROKU === 'false') {
 app.get('/', (req, res) => {
     db.Recs.find({})
         .then(rec => {
-            console.log(rec)
             res.render('home', {rec: rec})
     })
 })

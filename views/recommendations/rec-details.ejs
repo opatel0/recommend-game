@@ -1,26 +1,26 @@
 <%- include('../partials/meta') %>
+<link rel="stylesheet" href="/details.css">
 </head>
 <body>
     <%- include('../partials/header') %>
+    <main>
     <% for (doc of rec.games) { %>
-        <h2>Recommendation</h2>
-        <h3>Games</h3>
-        <h4><%- doc.title %></h4>
+        <h2><%- doc.title %></h2>
         <img src="<%- doc.sample_cover.image %>"><br>
         <%- doc.description %>
-        <h5>Genres</h5>
+        <h3>Genres</h3>
         <ul>
             <% for (genre of doc.genres) { %>
                 <li><%- genre.genre_name %></li>
             <% } %>
         </ul>
-        <h5>Platforms</h5>
+        <h3>Platforms</h3>
             <% for (platform of doc.platforms) { %>
             <ul>
                 <li><%- `${platform.platform_name}: released in ${platform.first_release_date}` %></li>
             </ul>
             <% } %>
-        <h5>Gameplay Screenshots</h5>
+        <h3>Gameplay Screenshots</h3>
             <% for (screenshot of doc.sample_screenshots) { %>
             <img src="<%- screenshot.image %>"><br>
             <% } %>
@@ -28,5 +28,6 @@
     <form method="POST" action ="/recommendations/<%- rec._id %>?_method=DELETE">
         <input type="submit" value="Delete Recommendation">
     </form>
+    </main>
 </body>
 </html>

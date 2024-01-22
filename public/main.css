@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    text-decoration: none;
+    font-family: 'Ubuntu', sans-serif;
 }
 :root {
     --light-yellow: rgba(253,237,174,1);
@@ -21,6 +24,9 @@ body {
 }
 header {
     margin: 16px;
+    display: flex;
+    flex-direction: column;
+
 }
 main {
     margin-bottom: 0px 16px 16px 16px;
@@ -29,17 +35,27 @@ h1 {
     font-size: calc(1rem + 4vw);
     color: var(--brown);
 }
+nav {
+    background-color: var(--brown);
+    width: 100%;
+}
 nav ul {
     display: flex;
     flex-direction: column;
     list-style-type: none;
 }
-a:link, a:visited {
+nav ul li a:link, nav ul li a:visited {
     color: var(--yellow);
     text-decoration: none;
 }
 a:hover {
-    color: var(--light-yellow)
+    color: var(--green)
+}
+.pc {
+    display: none;
+}
+.mobileHead {
+    display: inline;
 }
 
 @media (min-width: 768px) {
@@ -68,5 +84,11 @@ a:hover {
     }
     nav ul li a {
         font-size: calc(.5rem + 1.5vw);
+    }
+    .pc {
+        display: list-item
+    }
+    .mobileHead {
+        display: none;
     }
 }
