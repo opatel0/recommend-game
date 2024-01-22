@@ -3,6 +3,7 @@
 <body>
     <%- include('../partials/header') %>
     <h2><%- user[0].username %> User Dashboard</h2>
+    <% console.log(user[0].username) %>
     <a href="/users/<%- user[0].username %>/edit"><button>Edit User Account</button></a>
     <% Object.keys(recs) %>
     <% for (key of Object.keys(recs)) { %>

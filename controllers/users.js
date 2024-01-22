@@ -71,7 +71,10 @@ router.get('/:id/profile', (req, res) => {
 // edit
 router.get('/:id/edit', (req, res) => {
     db.User.find({username: req.params.id})
-        .then(user => res.render('users/edit-user', {user: user}))
+        .then(user => {
+            console.log(user)
+            res.render('users/edit-user', {user: user})
+    })
 })
 router.put('/:id/edit', (req, res) => {
     db.User.updateOne(

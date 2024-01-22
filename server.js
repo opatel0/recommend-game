@@ -28,31 +28,27 @@ if (process.env.ON_HEROKU === 'false') {
                         await db.User.insertMany(db.seedData.users)
                         .then(async createdData => {
                             console.log(`Added ${createdData.length} users`)
-                            db.Games.model.deleteMany({})
-                                .then(async () => {
-                                    console.log('Removed all contents of games collection')
-                                    db.Games.model.create({})
-                                    .then(doc => {
-                                        for (let i=0; i<1679; i+=1) {
-                                            setTimeout(() => {
-                                                console.log("Progress: "+i*100+"/167876")
-                                                db.Games.seedData(i*100)
-                                                    .then(gameData => {
-                                                        for (let game of gameData.data.games) {
-                                                            db.Games.model.updateOne(
-                                                                {_id: doc._id},
-                                                                { $push: {gameIds: game.game_id}}
-                                                            ).then(confirmation => {
-                                                                if (confirmation.adknowledged === false) {
-                                                                    console.log(`Issue pushing game_id ${game.game_id}`)
-                                                                }
-                                                            })
-                                                        }
-                                                        console.log('Added 100 game IDs')
-                                                    })
-                                            }, i*10000)
-                                        }
-                                    })
+                            db.Games.model.find({})
+                                .then(async entry => {
+                                    for (let i=593; i<1679; i+=1) {
+                                        setTimeout(() => {
+                                            console.log("Progress: "+i*100+"/167876")
+                                            db.Games.seedData(i*100)
+                                                .then(gameData => {
+                                                    for (let game of gameData.data.games) {
+                                                        db.Games.model.updateOne(
+                                                            {_id: entry[0]._id},
+                                                            { $push: {gameIds: game.game_id}}
+                                                        ).then(confirmation => {
+                                                            if (confirmation.adknowledged === false) {
+                                                                console.log(`Issue pushing game_id ${game.game_id}`)
+                                                            }
+                                                        })
+                                                    }
+                                                    console.log('Added 100 game IDs')
+                                                })
+                                        }, (i-593)*10000)
+                                    }
                                 })
                             await db.User.find({})
                                 .then(users => res.json(users))

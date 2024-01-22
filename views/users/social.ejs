@@ -2,7 +2,8 @@
 </head>
 <body>
     <%- include('../partials/header') %>
-    <a href="/users/<%- info.username %>"><button>User Dashboard</button></a>
+    <% console.log(info[0].username) %>
+    <a href="/users/<%- info[0].username %>/edit"><button>User Dashboard</button></a>
     <h2>Social Feed</h2>
     <% for (user of users) { %>
     <a href="/users/<%- user.username %>/profile"><h3><%- user.username %></h3></a>
