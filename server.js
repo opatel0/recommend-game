@@ -43,7 +43,7 @@ if (process.env.ON_HEROKU === 'false') {
                                 }
                                 console.log('Added 100 game IDs')
                             })
-                    }, i*5000)
+                    }, i*10000)
                 }
             })})})
     })
