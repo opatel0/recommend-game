@@ -1,15 +1,14 @@
-require('dotenv').config()
-const path = require('path')
-const express = require('express')
-const methodOverride = require('method-override')
+import express from 'express'
+import methodOverride from 'method-override'
+import { router as recommendationsCtrl } from './controllers/recommendations.js'
+import { Games, Recs } from './models/index.js'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express()
-const recommendationsCtrl = require('./controllers/recommendations')
-const db = require('./models')
-const game = require('./models/game')
 
 app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', './views')
 
 app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
@@ -18,21 +17,21 @@ app.use(methodOverride('_method'))
 if (process.env.ON_HEROKU === 'false') {
     // seed route
     app.get('/seed', async (req, res) => {
-        await db.Recs.deleteMany({})
+        await Recs.deleteMany({})
             .then(async deletedData => {
                 console.log(`Removed ${deletedData.deletedCount} recommendations`)
-                await db.Games.model.deleteMany({})
+                await Games.model.deleteMany({})
             .then(async () => {
                 console.log('Removed all contents of games collection')
-                db.Games.model.create({})
+                Games.model.create({})
             .then(doc => {
                 for (let i=0; i<1679; i+=1) {
                     setTimeout(() => {
                         console.log("Progress: "+i*100+"/167876")
-                        db.Games.seedData(i*100)
+                        Games.seedData(i*100)
                             .then(gameData => {
                                 for (let game of gameData.data.games) {
-                                    db.Games.model.updateOne(
+                                    Games.model.updateOne(
                                         {_id: doc._id},
                                         { $push: {gameIds: game.game_id}}
                                     ).then(confirmation => {
@@ -51,7 +50,7 @@ if (process.env.ON_HEROKU === 'false') {
 
 // home page to show request form and lure user into inputting search
 app.get('/', (req, res) => {
-    db.Recs.find({})
+    Recs.find({})
         .then(rec => {
             res.render('home', {rec: rec})
     })

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Installation instructions and user guide will be available here at a future date. Directly contact opatel0 for questions in the meantime.",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",

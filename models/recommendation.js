@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const recommendationSchema = new mongoose.Schema({
     searchCriteria: mongoose.Mixed,
     games: [mongoose.Mixed]
 })
 
-module.exports = recommendationSchema
+export default recommendationSchema
