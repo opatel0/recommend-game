@@ -15,32 +15,26 @@ const Games = { model, getData, seedData }
 export { Recs, Games }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-    await Recs.deleteMany({})
-        .then(async deletedData => {
-            console.log(`Removed ${deletedData.deletedCount} recommendations`)
-            await Games.model.deleteMany({})
-        .then(async () => {
-            console.log('Removed all contents of games collection')
-            Games.model.create({})
-        .then(doc => {
-            for (let i=0; i<1679; i+=1) {
-                setTimeout(() => {
-                    console.log("Progress: "+i*100+"/167876")
-                    Games.seedData(i*100)
-                        .then(gameData => {
-                            for (let game of gameData.data.games) {
-                                Games.model.updateOne(
-                                    {_id: doc._id},
-                                    { $push: {gameIds: game.game_id}}
-                                ).then(confirmation => {
-                                    if (confirmation.adknowledged === false) {
-                                        console.log(`Issue pushing game_id ${game.game_id}`)
-                                    }
-                                })
-                            }
-                            console.log('Added 100 game IDs')
-                        })
-                }, i*10000)
+    const deletedRecs = await Recs.deleteMany({})
+    console.log(`Removed ${deletedRecs.deletedCount} recommendations`)
+    const deletedModel = await Games.model.deleteMany({})
+    console.log('Removed all contents of games collection')
+    const createdModel = await Games.model.create({})
+    for (let i=0; i<1679; i+=1) {
+        setTimeout(async () => {
+            console.log("Progress: "+i*100+"/167876")
+            let seededGames = await Games.seedData(i*100)
+            console.log(seededGames)
+            for (let game of seededGames.data.games) {
+                let gameData = await Games.model.updateOne(
+                    {_id: createdModel._id},
+                    { $push: {gameIds: game.game_id}}
+                )
+                console.log(gameData)
+                if (!gameData.acknowledged) {
+                    console.log(`Issue pushing game_id ${game.game_id}`)
+                }
             }
-        })})})
+        }, i*10000)
+    }
 }
