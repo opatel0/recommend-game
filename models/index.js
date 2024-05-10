@@ -14,11 +14,16 @@ const Games = { model, getData, getSeedData }
 
 export { Recs, Games }
 
+// seed script
+const deleteAllRecs = () => Recs.deleteMany({});
+const deleteGameModel = () => Games.model.deleteMany({})
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-    const deletedRecs = await Recs.deleteMany({})
-    console.log(`Removed ${deletedRecs.deletedCount} recommendations`)
-    const deletedModel = await Games.model.deleteMany({})
-    console.log('Removed all contents of games collection')
-    const createdModel = await Games.model.create({})
-    seedDB(createdModel, 1679)
+    try {
+        await Promise.all([deleteAllRecs(), deleteGameModel()])
+        const createdModel = await Games.model.create({})
+        seedDB(createdModel, 1679)
+    } catch(e) {
+        throw new Error(`Error seeding: ${e}`)
+    }
 }
